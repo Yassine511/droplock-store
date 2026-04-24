@@ -1,65 +1,131 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import { products } from "@/lib/products";
+import { ProductCard } from "@/components/ProductCard";
+
+export default function CatalogPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  // Extract unique categories with counts
+  const categories = useMemo(() => {
+    const counts = new Map<string, number>();
+    products.forEach((p) => counts.set(p.category, (counts.get(p.category) || 0) + 1));
+    return [
+      { label: "All", count: products.length },
+      ...Array.from(counts.entries()).map(([label, count]) => ({ label, count })),
+    ];
+  }, []);
+
+  const filtered = useMemo(
+    () => activeCategory === "All" ? products : products.filter((p) => p.category === activeCategory),
+    [activeCategory]
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      {/* Hero strip */}
+      <section className="pt-10 pb-6 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-1">
+            {["DELIVERED.", "LOCKED.", "YOURS."].map((word, i) => (
+              <motion.h1
+                key={word}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1 + i * 0.12,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="font-mono text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-dl-text leading-[1.05]"
+              >
+                {word}
+              </motion.h1>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.55 }}
+            className="mt-5 text-[13px] text-dl-text-muted max-w-md"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Smart locker delivery. Pick up on your schedule.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="mt-4 flex items-center gap-3 text-[11px] font-mono text-dl-text-faint"
           >
-            Documentation
-          </a>
+            <span>50g – 20kg</span>
+            <span className="text-dl-border-2">·</span>
+            <span>24h delivery window</span>
+            <span className="text-dl-border-2">·</span>
+            <span>QR pickup</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.85, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="mt-8 h-px bg-gradient-to-r from-dl-accent/40 via-dl-border to-transparent origin-left"
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Category filter bar + product count */}
+      <section className="px-4 pb-2">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.9 }}
+            className="flex items-center justify-between gap-4 mb-5"
+          >
+            {/* Scrollable pills */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+              {categories.map((cat) => (
+                <button
+                  key={cat.label}
+                  onClick={() => setActiveCategory(cat.label)}
+                  className={`shrink-0 px-4 py-1.5 rounded-full text-[12px] font-medium tracking-[0.04em] border transition-all duration-150 whitespace-nowrap ${
+                    activeCategory === cat.label
+                      ? "bg-dl-accent/10 border-dl-accent/35 text-dl-accent"
+                      : "bg-transparent border-white/10 text-dl-text/50 hover:border-white/20 hover:text-dl-text/70"
+                  }`}
+                >
+                  {cat.label}
+                  <span className="ml-1.5 text-[10px] opacity-50">{cat.count}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Product count */}
+            <span className="shrink-0 text-[12px] font-mono text-dl-text-faint tabular-nums">
+              {filtered.length} product{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Product grid */}
+      <section className="px-4 pb-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+            {filtered.map((product, i) => (
+              <ProductCard key={product.slug} product={product} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </motion.div>
   );
 }
