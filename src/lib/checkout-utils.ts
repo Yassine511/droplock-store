@@ -86,16 +86,16 @@ export function validateCheckoutPayload(
       totalWeight += product.weightGrams * item.quantity;
     }
   }
-  if (totalWeight > 0 && totalWeight < 50) {
+  if (totalWeight > 0 && totalWeight < 25) {
     errors.push({
       field: "weight",
-      message: "Total weight must be at least 50g",
+      message: "Total weight must be at least 25g",
     });
   }
-  if (totalWeight > 20000) {
+  if (totalWeight > 5000) {
     errors.push({
       field: "weight",
-      message: `Total weight (${totalWeight}g) exceeds the 20kg locker limit. Please reduce your order.`,
+      message: `Total weight (${totalWeight}g) exceeds the 5kg locker limit. Please reduce your order.`,
     });
   }
 

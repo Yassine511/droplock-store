@@ -65,7 +65,7 @@ export default function CatalogPage() {
             transition={{ duration: 0.5, delay: 0.7 }}
             className="mt-4 flex items-center gap-3 text-[11px] font-mono text-dl-text-faint"
           >
-            <span>50g – 20kg</span>
+            <span>25g - 5kg</span>
             <span className="text-dl-border-2">·</span>
             <span>24h delivery window</span>
             <span className="text-dl-border-2">·</span>

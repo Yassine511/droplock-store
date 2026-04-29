@@ -15,7 +15,7 @@ export const products: Product[] = [
     name: "Pulse Orange Droplock",
     description:
       "Droplock tag with a pulse orange accent. Lightweight and ready for secure locker pickup.",
-    priceMilliDT: 25000,
+    priceMilliDT: 2000,
     weightGrams: 25,
     category: "Droplock",
     imageUrl: "/products/pulse-orange-droplock.jpeg",
@@ -26,7 +26,7 @@ export const products: Product[] = [
     name: "Red Velvet Droplock",
     description:
       "Droplock tag with a red velvet accent. Lightweight and ready for secure locker pickup.",
-    priceMilliDT: 25000,
+    priceMilliDT: 2000,
     weightGrams: 25,
     category: "Droplock",
     imageUrl: "/products/red-velvet-droplock.jpeg",

@@ -60,23 +60,23 @@ export async function POST(request: NextRequest) {
     );
 
     // 4. Validate weight bounds
-    if (totalWeightGrams < 50) {
+    if (totalWeightGrams < 25) {
       return NextResponse.json(
         {
           success: false,
           errorType: "VALIDATION_ERROR",
-          message: "Total weight must be at least 50g",
+          message: "Total weight must be at least 25g",
           attemptId,
         },
         { status: 400 }
       );
     }
-    if (totalWeightGrams > 20000) {
+    if (totalWeightGrams > 5000) {
       return NextResponse.json(
         {
           success: false,
           errorType: "VALIDATION_ERROR",
-          message: `Total weight (${totalWeightGrams}g) exceeds the 20kg locker limit`,
+          message: `Total weight (${totalWeightGrams}g) exceeds the 5kg locker limit`,
           attemptId,
         },
         { status: 400 }
