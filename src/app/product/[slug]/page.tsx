@@ -154,7 +154,7 @@ export default function ProductDetailPage({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-dl-surface border-[0.5px] border-dl-border">
+            <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white border-[0.5px] border-dl-border">
               <Image
                 src={product.imageUrl}
                 alt={product.name}
@@ -162,9 +162,8 @@ export default function ProductDetailPage({
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                 quality={90}
                 priority
-                style={{ objectFit: "cover", objectPosition: "center" }}
+                style={{ objectFit: "contain", objectPosition: "center" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-dl-bg/20 via-transparent to-transparent" />
             </div>
           </motion.div>
 

@@ -36,21 +36,20 @@ export function ProductCard({
       <Link href={`/product/${product.slug}`}>
         <div className="group relative rounded-xl bg-dl-surface border-[0.5px] border-dl-border overflow-hidden transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:-translate-y-[3px] hover:border-dl-border-2">
           {/* Image with zoom on hover */}
-          <div className="relative aspect-[4/3] overflow-hidden bg-dl-surface-raised">
+          <div className="relative aspect-[4/3] overflow-hidden bg-white">
             <Image
               src={product.imageUrl}
               alt={product.name}
               fill
               quality={80}
               priority={index < 4}
-              className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.05]"
+              className="object-contain transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.03]"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
             {/* Weight badge */}
             <span className="absolute top-3 right-3 mono-pill">
               ~{product.weightGrams}g
             </span>
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-dl-surface to-transparent" />
           </div>
 
           {/* Content */}
